@@ -1,0 +1,87 @@
+# A namespace can be defined across multiple files, this allows for organising methods
+Namespace App\Example;
+
+# Importing, exported methods, structures and Constants. This needs to be below the Namespace, before declaring anything else.
+Import Std\String\{split,toLowers,toString};
+Import Std\Crypto\{encode};
+
+# Constants
+Constant String SOME_API_KEY = 'some-api-key-value';
+
+# Constants can be exported
+Export Constant Integer MINIMUM_SPEED = 30;
+
+# Basic variables
+Char firstLetter = 'a';
+String myVar = 'MyString';
+Integer width = 10;
+Float percentage = 1.23;
+Double percentage = 1.23;
+Boolean canDrinkAlcohol = true;
+
+# Arrays
+String[] todos = ['Clean the bathroom', 'Vacuum the living room'];
+
+# Destruct arrays
+[String firstTodo] = todos;
+
+# Structures
+Structure Address = {
+    String firstname
+    String lastname
+    Structure coordinates = {
+        Float North
+        Float east
+    }
+}
+
+# Usage of structures
+Address deliveryAddress = {
+    firstname = ''
+    lastname = ''
+    coordinates = {
+        north = 12.345678
+        east = 12.345678
+    }
+}
+
+# Deconstruct structures
+{ String firstname, String lastname } = deliveryAddress;
+{ Float north, Float easy } = deliveryAddress.coordinates
+
+# Structures can be exported
+Export Structure Person = {
+    String firstName
+    String lastName
+    Int age
+}
+
+# One line method
+Method(String)=>String[] pathSplit = (inputVar) => split('/', inputVar);
+
+# Multi line method
+Export Method=>String pathLowerSplit = (String inputVar) => {
+    String lowerVar = toLowers(inputVar);
+    return split('/', lowerVar);
+}
+
+# Exporting
+Export Method()=>String dankMemes = () => encode(SOME_API_KEY, 'base64');
+
+# methods with the same name, but different signature
+Method(Integer)=>Void save = (value) => saveAsInt(value);
+Method(String)=>Void save = (value) => saveAsString(value);
+
+# Semicolon is optional, but required if you want to separate methods
+Integer age = 30; Integer averageAge = 45
+String name = 'Ian'
+
+# String templating
+Integer age = 30;
+String myAge = "My age is: {age}";
+String emptyTemplate = "This also works";
+String escaping = "I just want \{brackets\} here.";
+
+# Also executes methods, but they need to return an String
+Method()=>String getAge = () => toString(age);
+String myAgeByMethod = "My age is: {getAge()}";
