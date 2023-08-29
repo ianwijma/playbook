@@ -1,13 +1,13 @@
-# A namespace can be defined across multiple files, this allows for organising methods
+# A namespace can be defined across multiple files, promoting organized code.
 Namespace App\Example;
 
-# Importing, exported methods, structures and Constants. This needs to be below the Namespace, before declaring anything else.
-Import Std\String\{split,toLowers,toString};
+# Modules can be imported for better code organization.
+Import Std\String\{split, toLowers, toString};
 Import Std\Crypto\{encode};
 Import Std\Out\{writeLine};
-Import Std\Array\{allocateArray,forEach,count};
+Import Std\Array\{allocateArray, forEach, count};
 
-# Constants
+# Constants provide consistent values.
 Constant String SOME_API_KEY = 'some-api-key-value';
 
 # Constants can be exported
@@ -26,7 +26,7 @@ age = 35
 height = 10
 isFlying = true
 
-# a new scope like a method is a clean one, no variable leaking without explicit passing variables around
+# Methods provide a clean scope for variable management.
 Constant String SOME_CONSTANT_STRING = 'Hello World';
 String joke = '*Insert Joke*';
 Method()=>String writeComedianJoke = () => {
@@ -80,7 +80,7 @@ Method(ImageTypes)=>Boolean validImageType = (type) => {
 }
 Boolean isValid = validImageType(ImageTypes.JPG);
 
-# Arrays
+# Arrays store collections of items.
 String[] todos = ['Clean the bathroom', 'Vacuum the living room'];
 
 # Fixed length array
@@ -90,7 +90,7 @@ writeLine(count(counter)); # 13
 # Destruct arrays
 [String firstTodo] = todos;
 
-# Structures
+# Structures define composite data types.
 Structure Address = {
     String firstname
     String lastname
@@ -140,19 +140,17 @@ Method(Integer)=>Void save = (value) => saveAsInt(value);
 save("Hello"); # Invokes saveAsString
 save(42);      # Invokes saveAsInt
 
+# Semicolon is optional, but helps separate statements.
+Integer age = 30; Integer averageAge = 45;
+String name = 'Ian';
 
-# Semicolon is optional, but required if you want to separate methods
-Integer age = 30; Integer averageAge = 45
-String name = 'Ian'
-
-# String templating
-Integer age = 30;
+# String templating for dynamic text.
 String myAge = "My age is: {age}";
 String emptyTemplate = "This also works";
 String escaping = "I just want \{brackets\} here.";
 
-# Also executes methods, but they need to return an String
-Method()=>String getAge = () => toString(age);
+# Execute methods within templates, requiring them to return a String.
+Method() => String getAge = () => toString(age);
 String myAgeByMethod = "My age is: {getAge()}";
 
 # If Statement
@@ -179,8 +177,8 @@ Method(Integer, String)=>void writeLinesUsingForEach = (amount, message) => {
     forEach(booleanArray, () => writeLine(message));
 }
 
-# Memory management, unless exported memory is cleared once the scope has ended.
-Method(String, String, Integer)=>Person getNewPerson = (first, last, age) => {
+# Memory management: variables are cleared at the end of scope.
+Method(String, String, Integer) => Person getNewPerson = (first, last, age) => {
     Person newPerson = {
         firstname = first
         lastname = last
@@ -190,7 +188,7 @@ Method(String, String, Integer)=>Person getNewPerson = (first, last, age) => {
     return newPerson;
 } # newPerson variable is cleared from memory
 
-# Match control flow
+# Match control flow for pattern matching.
 Enum Operation = {
     ADD
     SUBTRACT
