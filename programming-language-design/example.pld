@@ -21,6 +21,23 @@ Float percentage = 1.23;
 Double geoLocation = 1.23;
 Boolean canDrinkAlcohol = true;
 
+# Type is optional for basic variable declarations
+age = 35
+height = 10
+isFlying = true
+
+# a new scope like a method is a clean one, no variable leaking without explicit passing variables around
+String joke = '*Insert Joke*';
+Method()=>String writeComedianJoke = () => {
+    writeLine(joke); # Joke is not available here
+    String comedian = 'John Doe';
+
+    return comedian;
+}
+writeLine(comedian); # Comedian is not available here
+writeLine(writeComedianJoke()); # Comedian is written here
+
+
 # Variable reassignment
 Dynamic String name = 'John';
 name = 'Doe';
@@ -150,3 +167,14 @@ Method(Integer, String)=>void writeLinesUsingForEach = (amount, message) => {
     Boolean[amount] booleanArray = [];
     forEach(booleanArray, () => writeLine(message));
 }
+
+# Memory management, unless exported memory is cleared once the scope has ended.
+Method(String, String, Integer)=>Person getNewPerson = (first, last, age) => {
+    Person newPerson = {
+        firstname = first
+        lastname = last
+        age = age
+    }
+
+    return newPerson;
+} # newPerson variable is cleared from memory
