@@ -1,0 +1,93 @@
+# Everything is a function, with functions the ( and ) brackets are optional.
+
+# !NOTE!
+# Looking at the current implementation, it looks possible to implement some functionality of this
+# language in other languages like Typescript and PHP. Javascript would have too much of a limited
+# type checking to make this work. But functionally it might work also in JS.
+
+# Namespace definition
+Namespace('App\Example'); # Also correct: Namespace 'App\Example';
+
+# Import modules
+Import 'Std\Array\{join}'
+
+# Constant makes the string available in all scopes
+Constant String API_KEY = 'secret-api-key';
+
+# Basic types without brackets
+Char firstLetter => 'a';            # OR: Char(firstLetter => 'a');
+String myVar => 'MyString';         # OR: String(myVar => 'MyString');
+Integer age => 30;                  # OR: Integer(age => 30);
+Float percentage => 1.23;           # OR: Float(percentage => 1.23);
+Double geoLocation => 1.23;         # OR: Double(geoLocation => 1.23);
+Boolean canDrinkAlcohol => true;    # OR: Boolean(canDrinkAlcohol => true);
+
+# Because variables are set using methods, they are immutable by default.
+Integer width => 25;    # OR: Integer(length => 25);
+Mutate width => 15;     # OR: Mutate(width => 15); Results into an error
+
+# ...unless marked as Mutable
+Mutable Integer length => 25;   # OR: MutableInteger(length => 25);
+Mutate length => 15;            # OR: Mutate(length => 15);
+
+# Array with brackets, [] is casted to Array under the hood
+String[] names => ['John', 'Foo'];  # OR: StringArray(names => ['John', 'Foo']);
+
+# Enums
+Enum RGB => {Red, Green, Blue}; # OR: Enum(RGB => {Red, Green, Blue})
+
+# Structure
+Structure Address => {
+    String firstname
+    String lastname
+    Structure coordinates => {
+        Float North
+        Float east
+    }
+}
+
+# Structure with brackets
+Structure(Address => {
+  String(firstname),
+  String(lastname),
+  Structure(coordinates = {
+      Float(North),
+      Float(east)   # trailing commas are initially not allowed
+  })
+})
+
+# TODO: Revisit function types.
+
+# Address is registered as a function
+Address deliveryAddress => {
+   String firstname => 'John',
+   String lastname => 'Doe',
+   Address coordinates = { Float north = 12.345678, Float east = 12.345678 }
+}
+
+OR
+
+Address(deliveryAddress => {
+   String(firstname => 'John'),
+   String(lastname => 'Doe'),
+   Address(coordinates => { Float(north => 12.345678), Float(east => 12.345678) })
+})
+
+
+# single line function definition
+Function getFullName => (String firstname, String lastname): String => "{firstname} {lastname}";
+
+OR
+
+Function(getFullName => (String firstname, String lastname): String => "{firstname} {lastname}");
+
+# Multi line function definition
+Function getFullName => (String firstname, String lastname): String return => {
+    return "{firstname} {lastname}";
+};
+
+OR
+
+Function(getFullName => (String firstname, String lastname): String return => {
+    return "{firstname} {lastname}";
+});
