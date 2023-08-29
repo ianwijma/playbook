@@ -186,7 +186,7 @@ Method(String, String, Integer) => Person getNewPerson = (first, last, age) => {
     }
 
     return newPerson;
-} # newPerson variable is cleared from memory
+}
 
 # Match control flow for pattern matching.
 Enum Operation = {
@@ -241,11 +241,11 @@ Result(Integer, String) result1 = parseAndReturnInteger("123");   # Returns Ok(1
 Result(Integer, String) result2 = parseAndReturnInteger("abc");   # Returns Err("Error parsing integer")
 
 Match result1 {
-    Ok(value) => writeLine("Parsed integer: {value}"),
+    Ok(value) => writeLine("Parsed integer: {value}")
     Err(error) => writeLine("Error: {error}")
 }
 
 Match result2 {
-    Ok(value) => writeLine("Parsed integer: {value}"),
+    Ok(value) => writeLine("Parsed integer: {value}")
     Err(error) => writeLine("Error: {error}")
 }
