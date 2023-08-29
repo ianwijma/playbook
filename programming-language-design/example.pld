@@ -159,6 +159,7 @@ Method(Integer, String)=>void writeLinesUsingWhile = (amount, message) => {
     Dynamic Integer i = 0;
     while (i < amount) {
         writeLine(message);
+        i = i + 1;
     }
 }
 
