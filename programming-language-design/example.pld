@@ -4,6 +4,8 @@ Namespace App\Example;
 # Importing, exported methods, structures and Constants. This needs to be below the Namespace, before declaring anything else.
 Import Std\String\{split,toLowers,toString};
 Import Std\Crypto\{encode};
+Import Std\Out\{writeLine};
+Import Std\Array\{allocateArray,forEach,count};
 
 # Constants
 Constant String SOME_API_KEY = 'some-api-key-value';
@@ -11,16 +13,56 @@ Constant String SOME_API_KEY = 'some-api-key-value';
 # Constants can be exported
 Export Constant Integer MINIMUM_SPEED = 30;
 
-# Basic variables
+# Basic variables, by default not changeable
 Char firstLetter = 'a';
 String myVar = 'MyString';
 Integer width = 10;
 Float percentage = 1.23;
-Double percentage = 1.23;
+Double geoLocation = 1.23;
 Boolean canDrinkAlcohol = true;
+
+# Variable reassignment
+Dynamic String name = 'John';
+name = 'Doe';
+
+# Enums
+Enum RGB = {
+    RED
+    GREEN
+    BLUE
+}
+
+# Enums default to numbers (1,2,3), but strings are also usable
+Enum OrderStatus = {
+    NEW = 'new'
+    PAID = 'paid'
+    SEND = 'send'
+    DELIVERED = 'delivered'
+}
+
+# Enums can also be on one line, but coma seperated
+Enum UserRoles = { ADMIN, CUSTOMER, GUEST }
+
+# Enums can be exported
+Export Enum ImageTypes = {
+    GIF
+    JPG
+    JPEG
+    PNG
+}
+
+# Enum can be used as a type
+Method(ImageTypes)=>Boolean validImageType = (type) => {
+    return type == ImageTypes.GIF;
+}
+Boolean isValid = validImageType(ImageTypes.JPG);
 
 # Arrays
 String[] todos = ['Clean the bathroom', 'Vacuum the living room'];
+
+# Fixed length array
+Integer[13] counter = [];
+writeLine(count(counter)); # 13
 
 # Destruct arrays
 [String firstTodo] = todos;
@@ -85,3 +127,26 @@ String escaping = "I just want \{brackets\} here.";
 # Also executes methods, but they need to return an String
 Method()=>String getAge = () => toString(age);
 String myAgeByMethod = "My age is: {getAge()}";
+
+# If Statement
+Method(Integer)=>void ifStatement = (age) => {
+    if (age > 18) {
+        Boolean canDrink = true
+    } else {
+        Boolean canDrink = false
+    }
+}
+
+# Loops using while
+Method(Integer, String)=>void writeLinesUsingWhile = (amount, message) => {
+    Dynamic Integer i = 0;
+    while (i < amount) {
+        writeLine(message);
+    }
+}
+
+# Loops using method
+Method(Integer, String)=>void writeLinesUsingForEach = (amount, message) => {
+    Boolean[amount] booleanArray = [];
+    forEach(booleanArray, () => writeLine(message));
+}
