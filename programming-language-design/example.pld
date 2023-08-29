@@ -2,6 +2,7 @@
 Namespace App\Example;
 
 # Modules can be imported for better code organization.
+# Std\* is the standard library components.
 Import Std\String\{split, toLowers, toString};
 Import Std\Crypto\{encode};
 Import Std\Out\{writeLine};
