@@ -27,9 +27,15 @@ height = 10
 isFlying = true
 
 # a new scope like a method is a clean one, no variable leaking without explicit passing variables around
+Constant String SOME_CONSTANT_STRING = 'Hello World';
 String joke = '*Insert Joke*';
 Method()=>String writeComedianJoke = () => {
-    writeLine(joke); # Joke is not available here
+    # Joke is not available here
+    writeLine(joke);
+
+    # Constants are available here
+    writeLine(SOME_CONSTANT_STRING);
+
     String comedian = 'John Doe';
 
     return comedian;
@@ -127,9 +133,13 @@ Export Method=>String pathLowerSplit = (String inputVar) => {
 # Exporting
 Export Method()=>String dankMemes = () => encode(SOME_API_KEY, 'base64');
 
-# methods with the same name, but different signature
-Method(Integer)=>Void save = (value) => saveAsInt(value);
+# Overloaded methods with the same name, but different signature
 Method(String)=>Void save = (value) => saveAsString(value);
+Method(Integer)=>Void save = (value) => saveAsInt(value);
+
+save("Hello"); # Invokes saveAsString
+save(42);      # Invokes saveAsInt
+
 
 # Semicolon is optional, but required if you want to separate methods
 Integer age = 30; Integer averageAge = 45
@@ -179,3 +189,65 @@ Method(String, String, Integer)=>Person getNewPerson = (first, last, age) => {
 
     return newPerson;
 } # newPerson variable is cleared from memory
+
+# Match control flow
+Enum Operation = {
+    ADD
+    SUBTRACT
+    MULTIPLY
+    DIVIDE
+}
+
+Method(Operation, Integer, Integer)=>Result(Integer, String) performOperation = (operation, a, b) => {
+    Match operation {
+        Operation.ADD => Ok(a + b);
+        Operation.SUBTRACT => Ok(a - b);
+        Operation.MULTIPLY => Ok(a * b);
+        Operation.DIVIDE => {
+            if (b != 0) {
+                Ok(a / b);
+            } else {
+                Err("Division by zero");
+            }
+        }
+    }
+}
+
+Method(Result(Integer, String)) printResult = (result) => {
+    Match result {
+        Ok(value) => writeLine("Result: {value}")
+        Err(error) => writeLine("Error: {error}")
+    }
+}
+
+Result(Integer, String) result1 = performOperation(Operation.ADD, 5, 3);
+Result(Integer, String) result2 = performOperation(Operation.MULTIPLY, 5, 2);
+Result(Integer, String) result3 = performOperation(Operation.DIVIDE, 10, 0);
+
+printResult(result1); # Result: 8
+printResult(result2); # Result: 10
+printResult(result3); # Error: Division by zero
+
+
+# error handling
+Method(String)=>Result(Integer, String) parseAndReturnInteger = (input) => {
+    try {
+        Integer number = Integer.parse(input);
+        return Ok(number);
+    } catch (Exception e) {
+        return Err("Error parsing integer");
+    }
+}
+
+Result(Integer, String) result1 = parseAndReturnInteger("123");   # Returns Ok(123)
+Result(Integer, String) result2 = parseAndReturnInteger("abc");   # Returns Err("Error parsing integer")
+
+Match result1 {
+    Ok(value) => writeLine("Parsed integer: {value}"),
+    Err(error) => writeLine("Error: {error}")
+}
+
+Match result2 {
+    Ok(value) => writeLine("Parsed integer: {value}"),
+    Err(error) => writeLine("Error: {error}")
+}
