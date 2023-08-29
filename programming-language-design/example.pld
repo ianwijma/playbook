@@ -1,20 +1,19 @@
-# A namespace can be defined across multiple files, promoting organized code.
+# Namespace Definition
 Namespace App\Example;
 
-# Modules can be imported for better code organization.
-# Std\* is the standard library components.
+# Module Imports
 Import Std\String\{split, toLowers, toString};
 Import Std\Crypto\{encode};
 Import Std\Out\{writeLine};
-Import Std\Array\{allocateArray, forEach, count};
+Import Std\Array\{allocateArray, count};
 
-# Constants provide consistent values.
+# Constants
 Constant String SOME_API_KEY = 'some-api-key-value';
 
-# Constants can be exported
+# Exported Constants
 Export Constant Integer MINIMUM_SPEED = 30;
 
-# Basic variables, by default not changeable
+# Basic Variables
 Char firstLetter = 'a';
 String myVar = 'MyString';
 Integer width = 10;
@@ -22,30 +21,23 @@ Float percentage = 1.23;
 Double geoLocation = 1.23;
 Boolean canDrinkAlcohol = true;
 
-# Type is optional for basic variable declarations
+# Type Inference for Basic Variables
 age = 35
 height = 10
 isFlying = true
 
-# Methods provide a clean scope for variable management.
+# Method Definition
 Constant String SOME_CONSTANT_STRING = 'Hello World';
 String joke = '*Insert Joke*';
+
 Method()=>String writeComedianJoke = () => {
-    # Joke is not available here
-    writeLine(joke);
-
-    # Constants are available here
+    writeLine(joke); # joke is not available here
     writeLine(SOME_CONSTANT_STRING);
-
     String comedian = 'John Doe';
-
     return comedian;
 }
-writeLine(comedian); # Comedian is not available here
-writeLine(writeComedianJoke()); # Comedian is written here
 
-
-# Variable reassignment
+# Variables can not be reassigned without the Dynamic keyword
 Dynamic String name = 'John';
 name = 'Doe';
 
@@ -56,7 +48,6 @@ Enum RGB = {
     BLUE
 }
 
-# Enums default to numbers (1,2,3), but strings are also usable
 Enum OrderStatus = {
     NEW = 'new'
     PAID = 'paid'
@@ -64,10 +55,8 @@ Enum OrderStatus = {
     DELIVERED = 'delivered'
 }
 
-# Enums can also be on one line, but coma seperated
 Enum UserRoles = { ADMIN, CUSTOMER, GUEST }
 
-# Enums can be exported
 Export Enum ImageTypes = {
     GIF
     JPG
@@ -75,23 +64,19 @@ Export Enum ImageTypes = {
     PNG
 }
 
-# Enum can be used as a type
-Method(ImageTypes)=>Boolean validImageType = (type) => {
-    return type == ImageTypes.GIF;
-}
+Method(ImageTypes)=>Boolean validImageType = (type) => type == ImageTypes.GIF;
+
 Boolean isValid = validImageType(ImageTypes.JPG);
 
-# Arrays store collections of items.
+# Arrays
 String[] todos = ['Clean the bathroom', 'Vacuum the living room'];
 
-# Fixed length array
 Integer[13] counter = [];
-writeLine(count(counter)); # 13
+writeLine(count(counter));  # Outputs 13
 
-# Destruct arrays
 [String firstTodo] = todos;
 
-# Structures define composite data types.
+# Structures
 Structure Address = {
     String firstname
     String lastname
@@ -101,31 +86,24 @@ Structure Address = {
     }
 }
 
-# Usage of structures
 Address deliveryAddress = {
     firstname = ''
     lastname = ''
-    coordinates = {
-        north = 12.345678
-        east = 12.345678
-    }
+    coordinates = { north = 12.345678, east = 12.345678 }
 }
 
-# Deconstruct structures
 { String firstname, String lastname } = deliveryAddress;
-{ Float north, Float easy } = deliveryAddress.coordinates
+{ Float north, Float east } = deliveryAddress.coordinates
 
-# Structures can be exported
 Export Structure Person = {
     String firstName
     String lastName
     Int age
 }
 
-# One line method
+# One-Line and Multi-Line Methods
 Method(String)=>String[] pathSplit = (inputVar) => split('/', inputVar);
 
-# Multi line method
 Export Method=>String pathLowerSplit = (String inputVar) => {
     String lowerVar = toLowers(inputVar);
     return split('/', lowerVar);
@@ -134,36 +112,40 @@ Export Method=>String pathLowerSplit = (String inputVar) => {
 # Exporting
 Export Method()=>String dankMemes = () => encode(SOME_API_KEY, 'base64');
 
-# Overloaded methods with the same name, but different signature
+# Overloaded Methods
 Method(String)=>Void save = (value) => saveAsString(value);
 Method(Integer)=>Void save = (value) => saveAsInt(value);
 
-save("Hello"); # Invokes saveAsString
-save(42);      # Invokes saveAsInt
+save("Hello");  # Invokes saveAsString
+save(42);       # Invokes saveAsInt
 
-# Semicolon is optional, but helps separate statements.
+# Semicolons for Statement Separation
 Integer age = 30; Integer averageAge = 45;
 String name = 'Ian';
 
-# String templating for dynamic text.
+# String Templating
 String myAge = "My age is: {age}";
 String emptyTemplate = "This also works";
-String escaping = "I just want \{brackets\} here.";
+String escaping = "I just want {{brackets}} here.";
 
-# Execute methods within templates, requiring them to return a String.
 Method() => String getAge = () => toString(age);
 String myAgeByMethod = "My age is: {getAge()}";
 
 # If Statement
 Method(Integer)=>void ifStatement = (age) => {
+    Dynamic Boolean canDrink = false;
     if (age > 18) {
-        Boolean canDrink = true
+        Boolean canDrink = true;
+    }
+
+    if (canDrink) {
+        writeLine('Cheers!')
     } else {
-        Boolean canDrink = false
+        writeLine('Wait a couple of years.')
     }
 }
 
-# Loops using while
+# Loops
 Method(Integer, String)=>void writeLinesUsingWhile = (amount, message) => {
     Dynamic Integer i = 0;
     while (i < amount) {
@@ -172,30 +154,18 @@ Method(Integer, String)=>void writeLinesUsingWhile = (amount, message) => {
     }
 }
 
-# Loops using method
-Method(Integer, String)=>void writeLinesUsingForEach = (amount, message) => {
-    Boolean[amount] booleanArray = [];
-    forEach(booleanArray, () => writeLine(message));
-}
-
-# Memory management: variables are cleared at the end of scope.
+# Memory Management
 Method(String, String, Integer) => Person getNewPerson = (first, last, age) => {
     Person newPerson = {
         firstname = first
         lastname = last
         age = age
     }
-
-    return newPerson;
+    return newPerson; # newPerson in cleared from memory
 }
 
-# Match control flow for pattern matching.
-Enum Operation = {
-    ADD
-    SUBTRACT
-    MULTIPLY
-    DIVIDE
-}
+# Pattern Matching
+Enum Operation = { ADD, SUBTRACT, MULTIPLY, DIVIDE }
 
 Method(Operation, Integer, Integer)=>Result(Integer, String) performOperation = (operation, a, b) => {
     Match operation {
@@ -227,8 +197,7 @@ printResult(result1); # Result: 8
 printResult(result2); # Result: 10
 printResult(result3); # Error: Division by zero
 
-
-# error handling
+# Error Handling
 Method(String)=>Result(Integer, String) parseAndReturnInteger = (input) => {
     try {
         Integer number = Integer.parse(input);
@@ -238,8 +207,8 @@ Method(String)=>Result(Integer, String) parseAndReturnInteger = (input) => {
     }
 }
 
-Result(Integer, String) result1 = parseAndReturnInteger("123");   # Returns Ok(123)
-Result(Integer, String) result2 = parseAndReturnInteger("abc");   # Returns Err("Error parsing integer")
+Result(Integer, String) result1 = parseAndReturnInteger("123"); # Returns Ok(123)
+Result(Integer, String) result2 = parseAndReturnInteger("abc"); # Returns Err("Error parsing integer")
 
 Match result1 {
     Ok(value) => writeLine("Parsed integer: {value}")
